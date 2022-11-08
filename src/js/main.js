@@ -9,6 +9,7 @@ let lastTimeStanding;
 const totalStandingTime = 10000;
 let remainingStandingTime = totalStandingTime;
 let currentlyStanding = false;
+let finished = false;
 
 
 async function init() {
@@ -57,9 +58,8 @@ async function predict() {
     for (let i = 0; i < maxPredictions; i++) {
         const classPrediction =
             prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
-        labelContainer.childNodes[i].innerHTML = classPrediction;
+        labelContainer.childNodes[i].innerText = classPrediction;
     }
-
 
     // finally draw the poses
     drawPose(pose);
@@ -68,32 +68,51 @@ async function predict() {
 }
 
 function processPrediction(standingPercentage) {
-    if (standingPercentage > 90) {
+    if (standingPercentage > 90 && !finished) {
         let now = new Date();
         if (currentlyStanding) {
             remainingStandingTime -= now - lastTimeStanding;
-
-            document.getElementById("standing-time").innerHTML = "" + remainingStandingTime;
-            drawBar();
+            
+            if (remainingStandingTime > 0) {
+                document.getElementById("standing-time").innerText = "" + remainingStandingTime;
+                drawBar();
+            } else {
+                remainingStandingTime = 0;
+                document.getElementById("standing-time").innerText = "" + remainingStandingTime;
+                drawBar();
+                finish();
+            }
 
         } else {
-            updateTitle(true);
+            updateTitle(true, finished);
         }
         lastTimeStanding = now;
         currentlyStanding = true;
-    } else {
+    } else if (!finished) {
         currentlyStanding = false;
-        updateTitle(currentlyStanding);
+        updateTitle(currentlyStanding, finished);
     }
 }
 
-function updateTitle(standing) {
+function finish() {
+    finished = true;
+    updateTitle(false, finished);
+
+    const doneBtn = document.createElement("button");
+    doneBtn.innerText = "Done"
+    document.getElementById("button-div").appendChild(doneBtn);
+}
+
+function updateTitle(standing, finished) {
     const titleElement = document.getElementById("title");
 
-    if (standing) {
-        titleElement.innerHTML = "Congratulations 🎉 Keep moving!"
+    if (finished) {
+        titleElement.innerText = "Congratulations 🎉 You did it!"
+    }
+    else if (standing) {
+        titleElement.innerText = "Just Keep moving 💃"
     } else {
-        titleElement.innerHTML = "Get up for joy moves!"
+        titleElement.innerText = "Get up for joy moves!"
     }
 }
 

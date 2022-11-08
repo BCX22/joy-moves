@@ -37,7 +37,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: 50px;
 }
 
 .main-column {
@@ -58,4 +58,21 @@
   gap: 10px;
   height: 40vh;
   padding: 20px 0 20px 0;
+}
+
+#button-div {
+  margin-top: 20px;
+}
+
+button {
+  background: #1F1E1D;
+  border-radius: 4px;
+  width: 160px;
+  height: 48px;
+  color: #F3EFE3;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
 }
