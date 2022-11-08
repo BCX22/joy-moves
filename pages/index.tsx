@@ -133,10 +133,10 @@ export default function Home() {
 
         <Webcam
           audio={false}
-          height={720}
+          height={videoConstraints.height}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          width={1280}
+          width={videoConstraints.width}
           videoConstraints={videoConstraints}
         />
         <canvas
@@ -149,8 +149,8 @@ export default function Home() {
             right: 0,
             textAlign: "center",
             zIndex: 9,
-            width: 1280,
-            height: 720,
+            width: videoConstraints.width,
+            height: videoConstraints.height,
           }}
         />
       </main>
