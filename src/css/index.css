@@ -13,6 +13,15 @@
   height: 100%;
 }
 
+@font-face {
+  font-family: StylishCalligraphy;
+  src: url("../StylishCalligraphy.ttf") format("truetype");
+}
+
+h1 {
+  font-family: StylishCalligraphy;
+}
+
 .title a {
   color: #0070f3;
   text-decoration: none;
