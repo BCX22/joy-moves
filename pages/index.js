@@ -21,7 +21,7 @@ async function init() {
 
   // Convenience function to setup a webcam
   const flip = true; // whether to flip the webcam
-  webcam = new tmPose.Webcam(200, 200, flip); // width, height, flip
+  webcam = new tmPose.Webcam(1280, 720, flip); // width, height, flip
   await webcam.setup(); // request access to the webcam
   webcam.play();
 
@@ -30,7 +30,7 @@ async function init() {
 
   // append/get elements to the DOM
   const canvas = document.getElementById('canvas');
-  canvas.width = 200; canvas.height = 200;
+  canvas.width = 1280; canvas.height = 720;
   ctx = canvas.getContext('2d');
   labelContainer = document.getElementById('label-container');
   for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -73,7 +73,9 @@ function drawPose(pose) {
 
 export default function Home() {
 
-
+  setTimeout(() => {
+    init()
+  }, 250);
 
   return (
     <div className="container">
@@ -90,8 +92,9 @@ export default function Home() {
         <p>Hello World!</p>
 
         <div>Teachable Machine Pose Model</div>
-        <button type="button" onClick={() => init()}>Start</button>
-        <div><canvas id="canvas"></canvas></div>
+        <div>
+          <canvas id="canvas"></canvas>
+        </div>
         <div id="label-container"></div>
       </div>
     </div>
