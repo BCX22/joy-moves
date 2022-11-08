@@ -1,8 +1,114 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import '@tensorflow/tfjs-backend-webgl';
+import * as posedetection from '@tensorflow-models/pose-detection';
+import { useState, useRef, useCallback, RefObject } from 'react';
+import Webcam from "react-webcam";
+import * as tf from '@tensorflow/tfjs-core';
+import { drawKeypoints as drawKeyPointsU, drawSkeleton as drawSkeletonU } from "../utils/utils"
 
 export default function Home() {
+
+  async function resetBackend(backendName: string) {
+    const ENGINE = tf.engine();
+    if (!(backendName in ENGINE.registryFactory)) {
+      throw new Error(`${backendName} backend is not registered.`);
+    }
+
+    if (backendName in ENGINE.registry) {
+      const backendFactory = tf.findBackendFactory(backendName);
+      tf.removeBackend(backendName);
+      tf.registerBackend(backendName, backendFactory);
+    }
+
+    await tf.setBackend(backendName);
+  }
+
+  async function setBackendAndEnvFlags(flagConfig: any, backend: string) {
+    if (flagConfig == null) {
+      return;
+    } else if (typeof flagConfig !== 'object') {
+      throw new Error(
+        `An object is expected, while a(n) ${typeof flagConfig} is found.`);
+    }
+
+    tf.env().setFlags(flagConfig);
+
+    const [runtime, $backend] = backend.split('-');
+
+    if (runtime === 'tfjs') {
+      await resetBackend($backend);
+    }
+  }
+
+  async function createDetector() {
+    let modelType;
+    modelType = posedetection.movenet.modelType.SINGLEPOSE_LIGHTNING;
+    const modelConfig = { modelType };
+
+    if (false) { // TODO
+      // modelConfig.enableTracking = STATE.modelConfig.enableTracking;
+    }
+    return posedetection.createDetector(posedetection.SupportedModels.MoveNet, modelConfig);
+  }
+
+
+
+  const drawCanvas = (pose: any, video: any, videoWith: number, videoHeight: number, canvasref: RefObject<HTMLCanvasElement>) => {
+    const canvas = canvasref.current!;
+    const ctx = canvas.getContext("2d")!;
+    canvas.width = videoWith;
+    canvas.height = videoHeight;
+
+    drawKeyPointsU(pose["keypoints"], 0.5, ctx);
+    drawSkeletonU(pose["keypoints"], 0.5, ctx);
+  }
+
+
+  async function estimatePose() {
+    if (detector && webcamRef.current && webcamRef.current.video !== null &&
+      webcamRef.current.video.width > 0 && webcamRef.current.video.height > 0 &&
+      canvasRef && canvasRef.current) {
+      const video = webcamRef.current?.video!;
+      const poses = await detector.estimatePoses(video, { maxPoses: 1, flipHorizontal: false });
+      drawCanvas(poses[0], video, video.width!, video.height!, canvasRef);
+    }
+  }
+
+  const webcamRef = useRef<Webcam & HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+
+  const flagConfig = {
+    "WEBGL_VERSION": 2,
+    "WEBGL_CPU_FORWARD": true,
+    "WEBGL_PACK": true,
+    'WEBGL_FORCE_F16_TEXTURES': false,
+    'WEBGL_RENDER_FLOAT32_CAPABLE': true,
+    'WEBGL_FLUSH_THRESHOLD': -1,
+  }
+  setBackendAndEnvFlags(flagConfig, 'tfjs-webgl')
+
+  let detector: posedetection.PoseDetector;
+  createDetector().then((d) => {
+    detector = d;
+
+    setTimeout(() => {
+      setInterval(() => {
+        estimatePose();
+      }, 100);
+    }, 500);
+  });
+
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    facingMode: "user"
+  };
+
+ 
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,47 +117,31 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+
+
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        <Webcam
+          audio={false}
+          height={720}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          width={1280}
+          videoConstraints={videoConstraints}
+        />
+        <canvas
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zIndex: 9,
+            width: 1280,
+            height: 720,
+          }}
+        />
       </main>
 
       <footer className={styles.footer}>
