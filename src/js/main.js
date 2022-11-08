@@ -6,7 +6,8 @@ const URL = 'https://teachablemachine.withgoogle.com/models/smtioMGWF/';
 let model, webcam, ctx, labelContainer, maxPredictions;
 
 let lastTimeStanding;
-let remainingStandingTime = 60000;
+const totalStandingTime = 10000;
+let remainingStandingTime = totalStandingTime;
 let currentlyStanding = false;
 
 
@@ -23,15 +24,16 @@ async function init() {
 
     // Convenience function to setup a webcam
     const flip = true; // whether to flip the webcam
-    webcam = new tmPose.Webcam(1280, 720, flip); // width, height, flip
+    const exampleGuide = document.getElementById("example-guide").getBoundingClientRect();
+    webcam = new tmPose.Webcam(500, 280, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     webcam.play();
     window.requestAnimationFrame(loop);
 
     // append/get elements to the DOM
     const canvas = document.getElementById('canvas');
-    canvas.width = 1280;
-    canvas.height = 720;
+    canvas.width = 500;
+    canvas.height = 280;
     ctx = canvas.getContext('2d');
     labelContainer = document.getElementById('label-container');
     for (let i = 0; i < maxPredictions; i++) { // and class labels
@@ -61,16 +63,18 @@ async function predict() {
 
     // finally draw the poses
     drawPose(pose);
-
     const standingPercentage = prediction[1].probability * 100;
+    processPrediction(standingPercentage);
+}
 
+function processPrediction(standingPercentage) {
     if (standingPercentage > 90) {
         let now = new Date();
         if (currentlyStanding) {
             remainingStandingTime -= now - lastTimeStanding;
 
             document.getElementById("standing-time").innerHTML = "" + remainingStandingTime;
-            drawBar(remainingStandingTime * 100 / 60000);
+            drawBar();
 
         } else {
             updateTitle(true);
@@ -93,10 +97,11 @@ function updateTitle(standing) {
     }
 }
 
-function drawBar(percentage) {
+function drawBar() {
+    const percentage = remainingStandingTime * 100 / totalStandingTime;
     const bar = document.getElementById("standing-time-bar");
-    var color1 = "blue";
-    var color2 = "red";
+    var color1 = "#797979";
+    var color2 = "#D4D4D4";
     bar.style.background = `linear-gradient(to right, ${color1}, ${percentage}%, ${color2})`;
 }
 
