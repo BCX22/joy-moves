@@ -31,3 +31,12 @@
   width: 1280px;
   height: 100px;
 }
+
+.main-row {
+  display: flex;
+  direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  align-content: center;
+}
