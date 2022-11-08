@@ -1,6 +1,5 @@
 import Head from 'next/head'
-import * as tf from 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js';
-import * as tmPose from 'https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8.3/dist/teachablemachine-pose.min.js';
+import Script from 'next/script'
 
 
 
@@ -25,10 +24,9 @@ async function init() {
   webcam = new tmPose.Webcam(200, 200, flip); // width, height, flip
   await webcam.setup(); // request access to the webcam
   webcam.play();
-  
-  setTimeout(() => {
-    window.requestAnimationFrame(loop);
-  }, 100);
+
+  window.requestAnimationFrame(loop);
+
 
   // append/get elements to the DOM
   const canvas = document.getElementById('canvas');
@@ -43,6 +41,7 @@ async function init() {
 async function loop(timestamp) {
   webcam.update(); // update the webcam frame
   await predict();
+  window.requestAnimationFrame(loop);
 }
 
 async function predict() {
@@ -78,17 +77,23 @@ export default function Home() {
 
   return (
     <div className="container">
+      <Script id="tfjs" strategy='beforeInteractive' src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></Script>
+      <Script id="teach-pose" strategy='beforeInteractive' src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8.3/dist/teachablemachine-pose.min.js"></Script>
+
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Hello World!</p>
 
-      <div>Teachable Machine Pose Model</div>
-      <button type="button" onClick={() => init()}>Start</button>
-      <div><canvas id="canvas"></canvas></div>
-      <div id="label-container"></div>
+      <div>
+        <p>Hello World!</p>
+
+        <div>Teachable Machine Pose Model</div>
+        <button type="button" onClick={() => init()}>Start</button>
+        <div><canvas id="canvas"></canvas></div>
+        <div id="label-container"></div>
+      </div>
     </div>
   )
 }
