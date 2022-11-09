@@ -13,18 +13,12 @@
   height: 100%;
 }
 
-@font-face {
-  font-family: StylishCalligraphy;
-  src: url("../StylishCalligraphy.ttf") format("truetype");
-}
-
 #joymoves-title {
-  font-family: StylishCalligraphy;
-}
-
-.title a {
-  color: #0070f3;
-  text-decoration: none;
+  font-family: Calligraffitti;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 64px;
+  line-height: 100px;
 }
 
 #label-container {
@@ -62,6 +56,10 @@
 
 #button-div {
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
 }
 
 button {
@@ -75,4 +73,75 @@ button {
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
+
+  transition-property: all;
+  transition-duration: 100ms;
+}
+
+button:hover {
+  width: 172px;
+  height: 56px;
+  color: #1F1E1D;
+  background: #F6CF46;
+
+  transition-property: all;
+  transition-duration: 100ms;
+}
+
+.toggle-switch {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px;
+  gap: 16px;
+}
+
+.toggle-switch .toggle-box {
+  box-sizing: border-box;
+
+  width: 40px;
+  height: 20px;
+
+  background: #DFDACD;
+  border: 1px solid #1F1E1D;
+  border-radius: 10px;
+
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}
+
+.toggle-switch .toggle-box .toggle-handle {
+  box-sizing: border-box;
+
+  position: relative;
+  width: 24px;
+  height: 24px;
+  top: -2px;
+  left: -2px;
+
+  background: #F3EFE3;
+  border: 1px solid #1F1E1D;
+  border-radius: 50%;
+
+  transition-property: left, background;
+  transition-duration: 300ms, 300ms;
+}
+
+.toggle-switch .toggle-box .toggle-handle-clicked {
+  box-sizing: border-box;
+
+  position: relative;
+  width: 24px;
+  height: 24px;
+  top: -2px;
+  left: 20px;
+
+  background: #1F1E1D;
+  border: 1px solid #1F1E1D;
+  border-radius: 50%;
+
+  transition-property: left, background;
+  transition-duration: 300ms, 300ms;
 }

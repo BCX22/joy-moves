@@ -4,17 +4,17 @@
 <head>
     <title>Joy Moves</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter">
-
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/index.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti" rel="stylesheet"> 
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8.3/dist/teachablemachine-pose.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="js/main.js"></script>
 </head>
 
@@ -29,12 +29,21 @@
                 </div>
                 <div class="main-row">
                     <canvas id='canvas'></canvas>
-                    <img id="example-guide" height="100%" src="https://i.snipboard.io/lI0LEG.jpg"/>
+                    <!-- <img id="example-guide" height="100%" src="https://i.snipboard.io/lI0LEG.jpg"/> -->
+                    <iframe id="example-guide" height="100%"
+                    src="https://www.youtube.com/embed/HcIvcR926sc">
+                    </iframe> 
                 </div>
                 <div id='label-container'></div>
             </div>
 
             <div id="button-div">
+                <div class="toggle-switch">
+                    <div class="toggle-box" onclick="toggleOffice()">
+                        <div id="inOfficeToggle" class="toggle-handle"></div>
+                    </div>
+                    <p>I'm in the office</p>
+                </div>
                 <button id="startbutton" type='button' onclick='init()'>Start</button>
             </div>
         </div>

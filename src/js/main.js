@@ -10,6 +10,20 @@ const totalStandingTime = 10000;
 let remainingStandingTime = totalStandingTime;
 let currentlyStanding = false;
 let finished = false;
+let inOffice = false;
+
+function toggleOffice() {
+    const toggleSwitch = document.getElementById("inOfficeToggle");
+    if (inOffice) {
+        toggleSwitch.classList.remove("toggle-handle-clicked");
+        toggleSwitch.classList.add("toggle-handle");
+    } else {
+        toggleSwitch.classList.remove("toggle-handle");
+        toggleSwitch.classList.add("toggle-handle-clicked");
+    }
+
+    inOffice = !inOffice;
+}
 
 
 async function init() {
@@ -40,6 +54,8 @@ async function init() {
     for (let i = 0; i < maxPredictions; i++) { // and class labels
         labelContainer.appendChild(document.createElement('div'));
     }
+
+    $("#example-guide")[0].src += "?autoplay=1";
 }
 
 async function loop(timestamp) {
@@ -72,7 +88,7 @@ function processPrediction(standingPercentage) {
         let now = new Date();
         if (currentlyStanding) {
             remainingStandingTime -= now - lastTimeStanding;
-            
+
             if (remainingStandingTime > 0) {
                 document.getElementById("standing-time").innerText = "" + remainingStandingTime;
                 drawBar();
