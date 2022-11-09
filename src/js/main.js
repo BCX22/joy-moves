@@ -130,7 +130,7 @@ function finish() {
     updateTitle(false, finished);
 
     nextStepButton.disabled = false;
-    nextStepButton.onclick = function() { onDoneClick();}
+    nextStepButton.onclick = function () { onDoneClick(); }
 
     onDoneClick();
 }
@@ -138,7 +138,7 @@ function finish() {
 function onDoneClick() {
     jsConfetti.addConfetti({
         emojis: ['💃', '🏅', '🏃‍♀️', '🏃‍♂️', '🏋️'],
-     })
+    })
 }
 
 function updateState(standing) {
