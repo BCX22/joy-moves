@@ -8,7 +8,7 @@ const URL = 'https://teachablemachine.withgoogle.com/models/d_xqLGdiP/';
 let model, webcam, canvas, ctx, labelContainer, maxPredictions;
 
 let lastTimeStanding;
-const totalStandingTime = 30000;
+const totalStandingTime = 60000;
 let remainingStandingTime = totalStandingTime;
 let currentlyStanding = false;
 let finished = false;
