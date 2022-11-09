@@ -157,12 +157,6 @@ function updateTitle(standing, finished) {
 }
 
 function updateTime() {
-    // const percentage = remainingStandingTime * 100 / totalStandingTime;
-    // const bar = document.getElementById("standing-time-bar");
-    // var color1 = "#797979";
-    // var color2 = "#D4D4D4";
-    // bar.style.background = `linear-gradient(to right, ${color1}, ${percentage}%, ${color2})`;
-
     document.getElementById("standing-timer").innerText = "Timer: " + (remainingStandingTime / 1000).toFixed(2) + "s"
 }
 
