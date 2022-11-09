@@ -1,17 +1,3 @@
-.container {
-  padding: 0 1rem;
-}
-
-.main {
-  min-height: 100vh;
-  padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
 
 #joymoves-title {
   font-family: Calligraffitti;
@@ -21,56 +7,7 @@
   line-height: 100px;
 }
 
-.main-column {
-  display: flex;
-  flex-direction: column;
-  width: 80vw;
-  background-color: #F3E4B4;
-  gap: 10px 10px;
-}
-
-.instructions {
-  height: 80px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: space-around;
-
-
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 24px;
-
-  /* identical to box height */
-  text-align: center;
-}
-
-.main-row {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-around;
-  align-items: center;
-  align-content: center;
-  gap: 10px;
-  height: 40vh;
-  padding: 20px 0 20px 0;
-}
-
-#button-div {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-
-  height: 110px;
-}
-
-button {
+#nextStepButton {
   color: #F3EFE3;
   background: #1F1E1D;
   border-radius: 4px;
@@ -86,7 +23,7 @@ button {
   transition-duration: 100ms;
 }
 
-button:hover:not([disabled]) {
+#nextStepButton:hover:not([disabled]) {
   width: 172px;
   height: 56px;
   color: #1F1E1D;
@@ -96,20 +33,13 @@ button:hover:not([disabled]) {
   transition-duration: 100ms;
 }
 
-button:disabled {
+#nextStepButton:disabled {
   color: #F3EFE3;
   background: #1F1E1D57;
 }
 
-.toggle-switch {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px;
-  gap: 16px;
-}
 
-.toggle-switch .toggle-box {
+.toggle-box {
   box-sizing: border-box;
 
   width: 40px;
@@ -125,7 +55,7 @@ button:disabled {
   flex-grow: 0;
 }
 
-.toggle-switch .toggle-box .toggle-handle {
+.toggle-box .toggle-handle {
   box-sizing: border-box;
 
   position: relative;
@@ -142,7 +72,7 @@ button:disabled {
   transition-duration: 300ms, 300ms;
 }
 
-.toggle-switch .toggle-box .toggle-handle-clicked {
+.toggle-box .toggle-handle-clicked {
   box-sizing: border-box;
 
   position: relative;
