@@ -52,13 +52,8 @@ async function init() {
 
     // append/get elements to the DOM
     canvas = document.getElementById('canvas');
-    // canvas.width = 640;
-    // canvas.height = 360;
     ctx = canvas.getContext('2d');
-    // labelContainer = document.getElementById('label-container');
-    // for (let i = 0; i < maxPredictions; i++) { // and class labels
-    //     labelContainer.appendChild(document.createElement('div'));
-    // }
+
 
     $("#example-guide")[0].src += "?autoplay=1";
 }
@@ -76,23 +71,18 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
-    // for (let i = 0; i < maxPredictions; i++) {
-    //     const classPrediction =
-    //         prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
-    //     labelContainer.childNodes[i].innerText = classPrediction;
-    // }
+    const canvasPixelWidht = canvas.width;
+    const canvasPixelHeight = canvas.height;
 
-    const canvasSize = canvas.getBoundingClientRect();
-    ctx.drawImage(webcam.canvas, 0, 0, canvasSize.width, canvasSize.height);
+    ctx.drawImage(webcam.canvas, 0, 0,canvasPixelWidht, canvasPixelHeight);
+
 
     // resize pose
     if (pose) {
-        console.log(pose.keypoints)
         for (let index = 0; index < pose.keypoints.length; index++) {
-            pose.keypoints[index].position.x = pose.keypoints[index].position.x / (1280 / canvasSize.width);
-            pose.keypoints[index].position.y = pose.keypoints[index].position.y / (720 / canvasSize.height);
+            pose.keypoints[index].position.x = pose.keypoints[index].position.x / (1280 / canvasPixelWidht);
+            pose.keypoints[index].position.y = pose.keypoints[index].position.y / (720 / canvasPixelHeight);
         }
-        console.log(pose.keypoints)
 
         // finally draw the poses
         drawPose(pose);
