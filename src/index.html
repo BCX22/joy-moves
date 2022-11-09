@@ -9,13 +9,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter" rel="stylesheet"> 
-    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Inter" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Calligraffitti" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8.3/dist/teachablemachine-pose.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
     <script src="js/main.js"></script>
 </head>
 
@@ -24,39 +25,45 @@
         <div class="max-w-screen-xl px-4 md:px-8 mx-auto">
             <!-- text - start -->
             <div class="mb-10 md:mb-16">
-                <h2 id="joymoves-title" class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">Joy Moves</h2>
+                <h2 id="joymoves-title" class="text-gray-800 text-2xl lg:text-3xl font-bold text-center mb-4 md:mb-6">
+                    Joy Moves</h2>
 
                 <p id="title" class="max-w-screen-md text-gray-500 md:text-3xl text-center mx-auto">
                     Get up for your joy moves!
                 </p>
             </div>
 
-            <div class="grid sm:grid-cols-2 gap-6">
-                <!-- product - start -->
+            <div id="workout" class="grid sm:grid-cols-2 gap-6">
+                <!-- webcam - start -->
                 <div>
-                    <div class="group h-80 flex items-end bg-gray-100 rounded-lg overflow-hidden shadow-lg relative p-4">
+                    <div
+                        class="group h-80 flex items-end bg-gray-100 rounded-lg overflow-hidden shadow-lg relative p-4">
                         <canvas id='canvas' class="w-full h-full object-cover object-center absolute inset-0"></canvas>
-                        
+
                     </div>
                     <div class="flex flex-col relative mx-auto">
-                        <span id="standing-state" class="font-bold text-xl text-center text-gray-600">Preparing...</span>
+                        <span id="standing-state"
+                            class="font-bold text-xl text-center text-gray-600">Preparing...</span>
                         <span id="standing-timer" class="font-bold text-xl text-center text-gray-600">Timer: ??s</span>
                     </div>
                 </div>
-                <!-- product - end -->
+                <!-- webcam - end -->
 
-                <!-- product - start -->
+                <!-- video - start -->
                 <div>
-                    <div class="group h-80 flex items-end bg-gray-100 rounded-lg overflow-hidden shadow-lg relative p-4">
+                    <div
+                        class="group h-80 flex items-end bg-gray-100 rounded-lg overflow-hidden shadow-lg relative p-4">
                         <iframe id="example-guide" class="w-full h-full object-cover object-center absolute inset-0 "
                             src="https://www.youtube.com/embed/HcIvcR926sc">
                         </iframe>
                     </div>
                     <div class="flex flex-col relative mx-auto">
-                        <span class="font-bold text-center text-xl text-gray-600">Follow me for one minute (<a href="https://www.nytimes.com/2022/05/24/well/move/joy-workout-exercises-happiness.html?campaign_id=51&emc=edit_mbe_20220525&instance_id=62311&nl=morning-briefing%3A-europe-edition&regi_id=123097935&segment_id=93276&te=1&user_id=b3e6bb5fd54f760fd6eb4e313522e987" target="_blank">credit</a>) </span>
+                        <span class="font-bold text-center text-xl text-gray-600">Follow me for one minute (<a
+                                href="https://www.nytimes.com/2022/05/24/well/move/joy-workout-exercises-happiness.html?campaign_id=51&emc=edit_mbe_20220525&instance_id=62311&nl=morning-briefing%3A-europe-edition&regi_id=123097935&segment_id=93276&te=1&user_id=b3e6bb5fd54f760fd6eb4e313522e987"
+                                target="_blank">credit</a>) </span>
                     </div>
                 </div>
-                <!-- product - end -->
+                <!-- video - end -->
             </div>
 
             <div class="mt-2 flex flex-col items-center content-center gap-3">
@@ -67,6 +74,7 @@
                     <p>I'm in the office</p>
                 </div>
                 <button id="nextStepButton" type='button' onclick='init()'>Start</button>
+                <!-- <button onclick="onDoneClick()">confetti</button> -->
             </div>
         </div>
     </div>

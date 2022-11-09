@@ -1,3 +1,5 @@
+
+
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
@@ -6,12 +8,14 @@ const URL = 'https://teachablemachine.withgoogle.com/models/d_xqLGdiP/';
 let model, webcam, canvas, ctx, labelContainer, maxPredictions;
 
 let lastTimeStanding;
-const totalStandingTime = 10000;
+const totalStandingTime = 1000;
 let remainingStandingTime = totalStandingTime;
 let currentlyStanding = false;
 let finished = false;
 let inOffice = false;
 let nextStepButton;
+
+let jsConfetti; // confetti
 
 function toggleOffice() {
     const toggleSwitch = document.getElementById("inOfficeToggle");
@@ -74,7 +78,7 @@ async function predict() {
     const canvasPixelWidht = canvas.width;
     const canvasPixelHeight = canvas.height;
 
-    ctx.drawImage(webcam.canvas, 0, 0,canvasPixelWidht, canvasPixelHeight);
+    ctx.drawImage(webcam.canvas, 0, 0, canvasPixelWidht, canvasPixelHeight);
 
 
     // resize pose
@@ -126,11 +130,15 @@ function finish() {
     updateTitle(false, finished);
 
     nextStepButton.disabled = false;
-    nextStepButton.onclick = onDoneClick();
+    nextStepButton.onclick = function() { onDoneClick();}
+
+    onDoneClick();
 }
 
 function onDoneClick() {
-
+    jsConfetti.addConfetti({
+        emojis: ['💃', '🏅', '🏃‍♀️', '🏃‍♂️', '🏋️'],
+     })
 }
 
 function updateState(standing) {
@@ -167,8 +175,10 @@ function drawPose(pose) {
         tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
         tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
     }
+
 }
 
 $(document).ready(function () {
     updateTime();
+    jsConfetti = new JSConfetti();
 });
