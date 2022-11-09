@@ -22,19 +22,21 @@
     <div class="container">
         <div class="main">
             <h1 id="joymoves-title">Joy Moves</h1>
-            <h1 id="title">Get up for joy moves!</h1>
+            <h1 id="title">Get up for your joy moves!</h1>
             <div class="main-column">
-                <div id="standing-time-bar">
-                    <p id="standing-time"></p>
-                </div>
+
                 <div class="main-row">
-                    <canvas id='canvas'></canvas>
-                    <!-- <img id="example-guide" height="100%" src="https://i.snipboard.io/lI0LEG.jpg"/> -->
+                    <div class="main-view">
+                        <canvas id='canvas' width="500" height="280" style="background-color: gray;"></canvas>
+                        <div class="instructions">
+                            <p id="standing-state">Preparing...</p>
+                            <p id="standing-timer">Timer: ??s</p>
+                        </div>
+                    </div>
                     <iframe id="example-guide" height="100%"
-                    src="https://www.youtube.com/embed/HcIvcR926sc">
+                        src="https://www.youtube.com/embed/HcIvcR926sc">
                     </iframe> 
                 </div>
-                <div id='label-container'></div>
             </div>
 
             <div id="button-div">
@@ -44,7 +46,7 @@
                     </div>
                     <p>I'm in the office</p>
                 </div>
-                <button id="startbutton" type='button' onclick='init()'>Start</button>
+                <button id="nextStepButton" type='button' onclick='init()'>Start</button>
             </div>
         </div>
     </div>
